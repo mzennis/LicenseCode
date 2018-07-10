@@ -66,8 +66,8 @@ public class SamsatActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View view, int position) {
                 Samsat item = adapter.getItem(position);
-                Toast.makeText(SamsatActivity.this,
-                        item.getName(), Toast.LENGTH_SHORT).show();
+                MapsActivity.start(SamsatActivity.this, item.getName(),
+                        item.getLat(), item.getLon());
             }
         });
 
