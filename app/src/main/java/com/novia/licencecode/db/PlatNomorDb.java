@@ -5,6 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PlatNomorDb {
     
     public static final String TABLE = "PlatNomor";
@@ -26,14 +29,14 @@ public class PlatNomorDb {
         dbHelper = new DbHelper(context);
     }
 
-    public int insert(Samsat samsat) {
+    public int insert(PlatNomor item) {
 
         //Open connection to write data
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_area, area);
-        values.put(KEY_code, code);
-        values.put(KEY_country, country);
+        values.put(KEY_area, item.area);
+        values.put(KEY_code, item.code);
+        values.put(KEY_country, item.country);
 
         // Inserting Row
         long samsat_Id = db.insert(TABLE, null, values);
@@ -41,8 +44,8 @@ public class PlatNomorDb {
         return (int) samsat_Id;
     }
 
-    public Cursor getSamsatList() {
-        //Open connection to read only
+    public List<PlatNomor> getPlatNomorList() {
+        List<PlatNomor> list = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String selectQuery =  "SELECT rowid as " +
                 KEY_ROWID + "," +
@@ -62,12 +65,22 @@ public class PlatNomorDb {
             cursor.close();
             return null;
         }
-        return cursor;
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            String area = cursor.getString(cursor.getColumnIndex(KEY_area));
+            String code  = cursor.getString(cursor.getColumnIndex(KEY_code));
+            String country  = cursor.getString(cursor.getColumnIndex(KEY_country));
+            list.add(new PlatNomor(code, area, country));
+            cursor.moveToNext();
+        }
+
+        cursor.close();
+        return list;
     }
 
-
-    public Cursor getSamsatListByKeyword(String search) {
-        //Open connection to read only
+    public List<PlatNomor> getPlatNomorListByKeyword(String search) {
+        List<PlatNomor> list = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String selectQuery =  "SELECT  rowid as " +
                 KEY_ROWID + "," +
@@ -89,43 +102,16 @@ public class PlatNomorDb {
             cursor.close();
             return null;
         }
-        return cursor;
-
-
-    }
-
-    public Samsat getSamsatById(int Id){
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        String selectQuery =  "SELECT " +
-                KEY_ID + "," +
-                KEY_area + "," +
-                KEY_code + "," +
-                KEY_country +
-                " FROM " + TABLE
-                + " WHERE " +
-                KEY_ID + "=?";// It's a good practice to use parameter ?, instead of concatenate string
-
-        int iCount = 0;
-        Samsat samsat = new Samsat();
-
-        Cursor cursor = db.rawQuery(selectQuery, new String[] { String.valueOf(Id) } );
-
-        if (cursor.moveToFirst()) {
-            do {
-                platnomor_ID = cursor.getInt(cursor.getColumnIndex(KEY_ID));
-                area = cursor.getString(cursor.getColumnIndex(KEY_area));
-                code  = cursor.getString(cursor.getColumnIndex(KEY_code));
-                country  = cursor.getString(cursor.getColumnIndex(KEY_country));
-
-            } while (cursor.moveToNext());
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            String area = cursor.getString(cursor.getColumnIndex(KEY_area));
+            String code  = cursor.getString(cursor.getColumnIndex(KEY_code));
+            String country  = cursor.getString(cursor.getColumnIndex(KEY_country));
+            list.add(new PlatNomor(code, area, country));
+            cursor.moveToNext();
         }
 
         cursor.close();
-        db.close();
-        return samsat;
+        return list;
     }
-
-
-
-
 }

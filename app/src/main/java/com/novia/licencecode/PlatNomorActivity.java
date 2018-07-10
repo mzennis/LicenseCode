@@ -11,6 +11,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.novia.licencecode.adapter.PlatNomorAdapter;
+import com.novia.licencecode.db.DataPlatNomor;
+import com.novia.licencecode.db.PlatNomor;
+import com.novia.licencecode.db.PlatNomorDb;
+import com.novia.licencecode.db.SamsatDb;
+
+import java.util.List;
+
 /**
  * Created by meta on 10/07/18.
  */
@@ -23,6 +31,9 @@ public class PlatNomorActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
 
+    private PlatNomorDb database;
+    private PlatNomorAdapter adapter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,11 +44,32 @@ public class PlatNomorActivity extends AppCompatActivity {
 
         setTitle("Plat Nomor");
 
+        database = new PlatNomorDb(this);
+        adapter = new PlatNomorAdapter(this);
+
         recyclerView = findViewById(R.id.recyclerview);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(adapter);
+
+        // logic jika data udah ada, langsung ke list. kalau belum ditambah dulu ke db
+        List<PlatNomor> data = database.getPlatNomorList();
+        if (data != null && !data.isEmpty()) {
+            addData(data);
+        } else {
+            DataPlatNomor.save(this); // untuk nambah data ke db
+
+            // add data ke list pas udh selesai disave
+            List<PlatNomor> items = database.getPlatNomorList();
+            addData(items);
+        }
+    }
+
+    private void addData(List<PlatNomor> data) {
+        adapter.addAll(data);
+        adapter.notifyDataSetChanged();
     }
 
     @Override

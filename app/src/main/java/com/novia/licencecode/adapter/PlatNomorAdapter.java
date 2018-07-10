@@ -44,6 +44,7 @@ public class PlatNomorAdapter extends RecyclerView.Adapter<PlatNomorAdapter.View
         PlatNomor item = list.get(i);
         viewHolder.area.setText(item.getArea());
         viewHolder.code.setText(item.getCode());
+        viewHolder.country.setText(item.getCountry());
     }
 
     @Override
@@ -53,12 +54,13 @@ public class PlatNomorAdapter extends RecyclerView.Adapter<PlatNomorAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView code, area;
+        private TextView code, area, country;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             code = itemView.findViewById(R.id.title);
             area = itemView.findViewById(R.id.desc);
+            country = itemView.findViewById(R.id.country);
         }
     }
 }

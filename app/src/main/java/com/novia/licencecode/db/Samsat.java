@@ -2,10 +2,10 @@ package com.novia.licencecode.db;
 
 public class Samsat {
 
-    private String name;
-    private String address;
-    private Double lat;
-    private Double lon;
+    public String name;
+    public String address;
+    public Double lat;
+    public Double lon;
 
     public String getName() {
         return name;

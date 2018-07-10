@@ -2,8 +2,18 @@ package com.novia.licencecode.db;
 
 public class PlatNomor {
 
-    private String code;
-    private String area;
+    public String code;
+    public String area;
+    public String country;
+
+    public PlatNomor() {
+    }
+
+    public PlatNomor(String code, String area, String country) {
+        this.code = code;
+        this.area = area;
+        this.country = country;
+    }
 
     public String getCode() {
         return code;
@@ -19,5 +29,13 @@ public class PlatNomor {
 
     public void setArea(String area) {
         this.area = area;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 }

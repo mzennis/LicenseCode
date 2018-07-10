@@ -36,10 +36,10 @@ public class SamsatDb {
         //Open connection to write data
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_lat,lat);
-        values.put(KEY_lon,lon);
-        values.put(KEY_address,address);
-        values.put(KEY_name, name);
+        values.put(KEY_lat, samsat.lat);
+        values.put(KEY_lon, samsat.lon);
+        values.put(KEY_address, samsat.address);
+        values.put(KEY_name, samsat.name);
 
         // Inserting Row
         long samsat_Id = db.insert(TABLE, null, values);
@@ -121,11 +121,11 @@ public class SamsatDb {
 
         if (cursor.moveToFirst()) {
             do {
-                samsat_ID =cursor.getInt(cursor.getColumnIndex(KEY_ID));
-                name =cursor.getString(cursor.getColumnIndex(KEY_name));
-                address  =cursor.getString(cursor.getColumnIndex(KEY_address));
-                lat  =cursor.getString(cursor.getColumnIndex(KEY_lat));
-                lon  =cursor.getString(cursor.getColumnIndex(KEY_lon));
+                samsat_ID = cursor.getInt(cursor.getColumnIndex(KEY_ID));
+                name = cursor.getString(cursor.getColumnIndex(KEY_name));
+                address  = cursor.getString(cursor.getColumnIndex(KEY_address));
+                lat  = cursor.getString(cursor.getColumnIndex(KEY_lat));
+                lon  = cursor.getString(cursor.getColumnIndex(KEY_lon));
 
             } while (cursor.moveToNext());
         }
@@ -134,8 +134,4 @@ public class SamsatDb {
         db.close();
         return samsat;
     }
-
-
-
-
 }
