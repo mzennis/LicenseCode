@@ -21,8 +21,23 @@ public class PlatNomorAdapter extends RecyclerView.Adapter<PlatNomorAdapter.View
     private Context context;
     private List<PlatNomor> list;
 
+    protected OnItemClickListener onItemClickListener;
+
+    public OnItemClickListener getOnItemClickListener() {
+        return onItemClickListener;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
     public PlatNomorAdapter(Context context) {
         this.context = context;
+    }
+
+    public void clear() {
+        this.list.clear();
+        notifyItemRangeRemoved(0, getItemCount());
     }
 
     public void addAll(List<PlatNomor> list) {
@@ -52,6 +67,10 @@ public class PlatNomorAdapter extends RecyclerView.Adapter<PlatNomorAdapter.View
         return list.size();
     }
 
+    public PlatNomor getItem(int position) {
+        return list.get(position);
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView code, area, country;
@@ -61,6 +80,15 @@ public class PlatNomorAdapter extends RecyclerView.Adapter<PlatNomorAdapter.View
             code = itemView.findViewById(R.id.title);
             area = itemView.findViewById(R.id.desc);
             country = itemView.findViewById(R.id.country);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (onItemClickListener != null) {
+                        onItemClickListener.onItemClick(view, getAdapterPosition());
+                    }
+                }
+            });
         }
     }
 }

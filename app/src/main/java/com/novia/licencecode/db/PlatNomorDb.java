@@ -89,7 +89,7 @@ public class PlatNomorDb {
                 KEY_code + "," +
                 KEY_country +
                 " FROM " + TABLE +
-                " WHERE " +  KEY_area + "  LIKE  '%" +search + "%' "
+                " WHERE " +  KEY_country + "  LIKE  '%" +search + "%' "
                 ;
 
 

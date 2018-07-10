@@ -1,5 +1,6 @@
 package com.novia.licencecode;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,10 +8,13 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
+import com.novia.licencecode.adapter.OnItemClickListener;
 import com.novia.licencecode.adapter.PlatNomorAdapter;
 import com.novia.licencecode.db.DataPlatNomor;
 import com.novia.licencecode.db.PlatNomor;
@@ -54,6 +58,15 @@ public class PlatNomorActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
 
+        adapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                PlatNomor item = adapter.getItem(position);
+                Toast.makeText(PlatNomorActivity.this,
+                        item.getCountry(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
         // logic jika data udah ada, langsung ke list. kalau belum ditambah dulu ke db
         List<PlatNomor> data = database.getPlatNomorList();
         if (data != null && !data.isEmpty()) {
@@ -74,8 +87,29 @@ public class PlatNomorActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_search, menu);
+        SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView search = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        if (manager != null)
+            search.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
+
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                List<PlatNomor> data = database.getPlatNomorListByKeyword(s);
+                if (data != null && !data.isEmpty()){
+                    adapter.clear();
+                    adapter.addAll(data);
+                    adapter.notifyDataSetChanged();
+                }
+                return false;
+            }
+        });
         return true;
     }
 
