@@ -5,29 +5,24 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-public class SamsatRepo {
+public class PlatNomorDb {
     
-    // Labels table name
-    public static final String TABLE = "Samsat";
+    public static final String TABLE = "PlatNomor";
 
-    // Labels Table Columns names
     public static final String KEY_ROWID = "_id";
     public static final String KEY_ID = "id";
-    public static final String KEY_name = "name";
-    public static final String KEY_address = "address";
-    public static final String KEY_lat = "lat";
-    public static final String KEY_lon = "lon";
+    public static final String KEY_area = "area";
+    public static final String KEY_code = "code";
+    public static final String KEY_country = "country";
 
-    // property help us to keep data
-    public int samsat_ID;
-    public String name;
-    public String address;
-    public String lat;
-    public String lon;
+    public int platnomor_ID;
+    public String area;
+    public String code;
+    public String country;
 
     private DbHelper dbHelper;
 
-    public SamsatRepo(Context context) {
+    public PlatNomorDb(Context context) {
         dbHelper = new DbHelper(context);
     }
 
@@ -36,10 +31,9 @@ public class SamsatRepo {
         //Open connection to write data
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_lat,lat);
-        values.put(KEY_lon,lon);
-        values.put(KEY_address,address);
-        values.put(KEY_name, name);
+        values.put(KEY_area, area);
+        values.put(KEY_code, code);
+        values.put(KEY_country, country);
 
         // Inserting Row
         long samsat_Id = db.insert(TABLE, null, values);
@@ -53,10 +47,9 @@ public class SamsatRepo {
         String selectQuery =  "SELECT rowid as " +
                 KEY_ROWID + "," +
                 KEY_ID + "," +
-                KEY_name + "," +
-                KEY_lat + "," +
-                KEY_lon + "," +
-                KEY_address +
+                KEY_area + "," +
+                KEY_code + "," +
+                KEY_country +
                 " FROM " + TABLE;
 
 
@@ -79,12 +72,11 @@ public class SamsatRepo {
         String selectQuery =  "SELECT  rowid as " +
                 KEY_ROWID + "," +
                 KEY_ID + "," +
-                KEY_name + "," +
-                KEY_lat + "," +
-                KEY_lon + "," +
-                KEY_address +
+                KEY_area + "," +
+                KEY_code + "," +
+                KEY_country +
                 " FROM " + TABLE +
-                " WHERE " +  KEY_name + "  LIKE  '%" +search + "%' "
+                " WHERE " +  KEY_area + "  LIKE  '%" +search + "%' "
                 ;
 
 
@@ -106,10 +98,9 @@ public class SamsatRepo {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String selectQuery =  "SELECT " +
                 KEY_ID + "," +
-                KEY_name + "," +
-                KEY_lat + "," +
-                KEY_lon + "," +
-                KEY_address +
+                KEY_area + "," +
+                KEY_code + "," +
+                KEY_country +
                 " FROM " + TABLE
                 + " WHERE " +
                 KEY_ID + "=?";// It's a good practice to use parameter ?, instead of concatenate string
@@ -121,11 +112,10 @@ public class SamsatRepo {
 
         if (cursor.moveToFirst()) {
             do {
-                samsat_ID =cursor.getInt(cursor.getColumnIndex(KEY_ID));
-                name =cursor.getString(cursor.getColumnIndex(KEY_name));
-                address  =cursor.getString(cursor.getColumnIndex(KEY_address));
-                lat  =cursor.getString(cursor.getColumnIndex(KEY_lat));
-                lon  =cursor.getString(cursor.getColumnIndex(KEY_lon));
+                platnomor_ID = cursor.getInt(cursor.getColumnIndex(KEY_ID));
+                area = cursor.getString(cursor.getColumnIndex(KEY_area));
+                code  = cursor.getString(cursor.getColumnIndex(KEY_code));
+                country  = cursor.getString(cursor.getColumnIndex(KEY_country));
 
             } while (cursor.moveToNext());
         }

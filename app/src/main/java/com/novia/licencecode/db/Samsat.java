@@ -2,34 +2,25 @@ package com.novia.licencecode.db;
 
 public class Samsat {
 
-    private String code;
-    private String area;
-    private String country;
+    private String name;
+    private String address;
     private Double lat;
     private Double lon;
 
-    public String getCode() {
-        return code;
+    public String getName() {
+        return name;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getArea() {
-        return area;
+    public String getAddress() {
+        return address;
     }
 
-    public void setArea(String area) {
-        this.area = area;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public Double getLat() {

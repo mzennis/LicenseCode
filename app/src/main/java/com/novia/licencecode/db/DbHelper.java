@@ -22,18 +22,18 @@ public class DbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         //All necessary tables you like to create will create here
 
-        String CREATE_TABLE_SAMSAT = "CREATE TABLE " + SamsatRepo.TABLE  + "("
-                + SamsatRepo.KEY_ID  + " INTEGER PRIMARY KEY AUTOINCREMENT ,"
-                + SamsatRepo.KEY_name + " TEXT, "
-                + SamsatRepo.KEY_lat + " TEXT, "
-                + SamsatRepo.KEY_lon + " TEXT, "
-                + SamsatRepo.KEY_address + " TEXT )";
+        String CREATE_TABLE_SAMSAT = "CREATE TABLE " + SamsatDb.TABLE  + "("
+                + SamsatDb.KEY_ID  + " INTEGER PRIMARY KEY AUTOINCREMENT ,"
+                + SamsatDb.KEY_name + " TEXT, "
+                + SamsatDb.KEY_lat + " TEXT, "
+                + SamsatDb.KEY_lon + " TEXT, "
+                + SamsatDb.KEY_address + " TEXT )";
 
-        String CREATE_TABLE_PLATNOMOR = "CREATE TABLE " + PlatNomorRepo.TABLE  + "("
-                + PlatNomorRepo.KEY_ID  + " INTEGER PRIMARY KEY AUTOINCREMENT ,"
-                + PlatNomorRepo.KEY_area + " TEXT, "
-                + PlatNomorRepo.KEY_country + " TEXT, "
-                + PlatNomorRepo.KEY_code + " TEXT )";
+        String CREATE_TABLE_PLATNOMOR = "CREATE TABLE " + PlatNomorDb.TABLE  + "("
+                + PlatNomorDb.KEY_ID  + " INTEGER PRIMARY KEY AUTOINCREMENT ,"
+                + PlatNomorDb.KEY_area + " TEXT, "
+                + PlatNomorDb.KEY_country + " TEXT, "
+                + PlatNomorDb.KEY_code + " TEXT )";
 
         db.execSQL(CREATE_TABLE_PLATNOMOR);
         db.execSQL(CREATE_TABLE_SAMSAT);
@@ -42,8 +42,8 @@ public class DbHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older table if existed, all data will be gone!!!
-        db.execSQL("DROP TABLE IF EXISTS " + SamsatRepo.TABLE);
-        db.execSQL("DROP TABLE IF EXISTS " + PlatNomorRepo.TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + SamsatDb.TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + PlatNomorDb.TABLE);
 
         // Create tables again
         onCreate(db);
