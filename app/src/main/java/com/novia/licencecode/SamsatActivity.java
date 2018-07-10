@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 
 /**
@@ -16,6 +17,8 @@ public class SamsatActivity extends AppCompatActivity {
         Intent intent = new Intent(context, SamsatActivity.class);
         context.startActivity(intent);
     }
+
+    private RecyclerView recyclerView;
 
     // ini function yg di run pertama
     @Override
@@ -29,6 +32,8 @@ public class SamsatActivity extends AppCompatActivity {
 
         // ini untuk title dari halaman
         setTitle("Samsat");
+
+        recyclerView = findViewById(R.id.recyclerview);
     }
 
     @Override
