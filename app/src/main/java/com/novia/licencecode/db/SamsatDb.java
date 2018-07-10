@@ -5,6 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SamsatDb {
     
     // Labels table name
@@ -47,8 +50,8 @@ public class SamsatDb {
         return (int) samsat_Id;
     }
 
-    public Cursor getSamsatList() {
-        //Open connection to read only
+    public List<Samsat> getSamsatList() {
+        List<Samsat> list = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String selectQuery =  "SELECT rowid as " +
                 KEY_ROWID + "," +
@@ -69,12 +72,22 @@ public class SamsatDb {
             cursor.close();
             return null;
         }
-        return cursor;
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            String name = cursor.getString(cursor.getColumnIndex(KEY_name));
+            String address  = cursor.getString(cursor.getColumnIndex(KEY_address));
+            String lat  = cursor.getString(cursor.getColumnIndex(KEY_lat));
+            String lon  = cursor.getString(cursor.getColumnIndex(KEY_lon));
+            list.add(new Samsat(name, address, Double.parseDouble(lat), Double.parseDouble(lon)));
+            cursor.moveToNext();
+        }
+
+        cursor.close();
+        return list;
     }
 
-
-    public Cursor getSamsatListByKeyword(String search) {
-        //Open connection to read only
+    public List<Samsat> getSamsatListByKeyword(String search) {
+        List<Samsat> list = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String selectQuery =  "SELECT  rowid as " +
                 KEY_ROWID + "," +
@@ -97,9 +110,18 @@ public class SamsatDb {
             cursor.close();
             return null;
         }
-        return cursor;
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            String name = cursor.getString(cursor.getColumnIndex(KEY_name));
+            String address  = cursor.getString(cursor.getColumnIndex(KEY_address));
+            String lat  = cursor.getString(cursor.getColumnIndex(KEY_lat));
+            String lon  = cursor.getString(cursor.getColumnIndex(KEY_lon));
+            list.add(new Samsat(name, address, Double.parseDouble(lat), Double.parseDouble(lon)));
+            cursor.moveToNext();
+        }
 
-
+        cursor.close();
+        return list;
     }
 
     public Samsat getSamsatById(int Id){

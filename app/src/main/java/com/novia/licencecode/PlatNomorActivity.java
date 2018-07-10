@@ -19,7 +19,6 @@ import com.novia.licencecode.adapter.PlatNomorAdapter;
 import com.novia.licencecode.db.DataPlatNomor;
 import com.novia.licencecode.db.PlatNomor;
 import com.novia.licencecode.db.PlatNomorDb;
-import com.novia.licencecode.db.SamsatDb;
 
 import java.util.List;
 
@@ -32,8 +31,6 @@ public class PlatNomorActivity extends AppCompatActivity {
         Intent intent = new Intent(context, PlatNomorActivity.class);
         context.startActivity(intent);
     }
-
-    private RecyclerView recyclerView;
 
     private PlatNomorDb database;
     private PlatNomorAdapter adapter;
@@ -51,7 +48,7 @@ public class PlatNomorActivity extends AppCompatActivity {
         database = new PlatNomorDb(this);
         adapter = new PlatNomorAdapter(this);
 
-        recyclerView = findViewById(R.id.recyclerview);
+        RecyclerView recyclerView = findViewById(R.id.recyclerview);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -117,8 +114,6 @@ public class PlatNomorActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             this.finish();
-        } else if (item.getItemId() == R.id.action_search) {
-            Toast.makeText(this, "Search", Toast.LENGTH_SHORT).show();
         } else {
             return super.onOptionsItemSelected(item);
         }

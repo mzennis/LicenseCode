@@ -7,6 +7,16 @@ public class Samsat {
     public Double lat;
     public Double lon;
 
+    public Samsat() {
+    }
+
+    public Samsat(String name, String address, Double lat, Double lon) {
+        this.name = name;
+        this.address = address;
+        this.lat = lat;
+        this.lon = lon;
+    }
+
     public String getName() {
         return name;
     }

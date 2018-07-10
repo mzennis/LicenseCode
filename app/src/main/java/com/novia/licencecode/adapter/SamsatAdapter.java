@@ -20,13 +20,31 @@ public class SamsatAdapter extends RecyclerView.Adapter<SamsatAdapter.ViewHolder
 
     private Context context;
     private List<Samsat> list;
+    protected OnItemClickListener onItemClickListener;
+
+    public OnItemClickListener getOnItemClickListener() {
+        return onItemClickListener;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
 
     public SamsatAdapter(Context context) {
         this.context = context;
     }
 
+    public void clear() {
+        this.list.clear();
+        notifyItemRangeRemoved(0, getItemCount());
+    }
+
     public void addAll(List<Samsat> list) {
         this.list = list;
+    }
+
+    public Samsat getItem(int position) {
+        return list.get(position);
     }
 
     @NonNull
@@ -59,6 +77,15 @@ public class SamsatAdapter extends RecyclerView.Adapter<SamsatAdapter.ViewHolder
             super(itemView);
             name = itemView.findViewById(R.id.title);
             address = itemView.findViewById(R.id.desc);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (onItemClickListener != null) {
+                        onItemClickListener.onItemClick(view, getAdapterPosition());
+                    }
+                }
+            });
         }
     }
 }
